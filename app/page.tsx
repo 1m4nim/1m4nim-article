@@ -9,9 +9,9 @@ export default function Home() {
       </div>
       <Image
         className={styles.bgimg}
-        // Next.jsのpublicフォルダ内の画像は、ルートパス (/) からアクセスします
         src="/angel.jpg"
         alt="赤いキノコの帽子をかぶった天使"
+        fill
       />
     </section>
   );

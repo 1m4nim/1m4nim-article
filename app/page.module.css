@@ -1,28 +1,36 @@
-.top{
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
 }
 
-.title{
-    font-size: 3rem;
-    font-weight: bold;
+.top > div {
+  position: relative;
+  z-index: 10;
+  text-align: center;
 }
 
-.bgimg{
-    position: absolute;
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  background-color: antiquewhite;
+  color: black;
 }
 
-@media (max-width:640px) {
-    .top{
-        padding: 120px 16px;
-    }    
-    .title{
-        font-size: 2rem;
-        text-align: left;
-    }
-    .bgimg{
-        position: absolute;
-    }
+.bgimg {
+  position: absolute;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .top {
+    padding: 120px 16px;
+    height: 40vh;
+  }
+  .title {
+    font-size: 2rem;
+    text-align: center;
+  }
 }
