@@ -1,0 +1,22 @@
+
+
+.buttton{
+    display:block;
+    padding:20px 40px;
+    width: 300px;
+    background:url("/arrow-right.svg") no-repeat right 20px center;
+    color:black
+}
+
+.button:hover{
+    opacity:0.9;
+}
+
+@media(max-width:640px){
+    .button{
+        padding:16px 24px;
+        width:100%;
+    }
+    
+    
+}
