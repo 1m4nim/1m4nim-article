@@ -30,8 +30,8 @@ const data: {
       category: {
         name: "更新情報",
       },
-      publishedAt: "2025/12/12",
-      createdAt: "2025/12/12",
+      publishedAt: "2025/12/13",
+      createdAt: "2025/12/13",
     },
   ],
 };
