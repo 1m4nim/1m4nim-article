@@ -1,6 +1,4 @@
-
-
-.buttton{
+.button{
     display:block;
     padding:20px 40px;
     width: 300px;
@@ -17,6 +15,4 @@
         padding:16px 24px;
         width:100%;
     }
-    
-    
 }
