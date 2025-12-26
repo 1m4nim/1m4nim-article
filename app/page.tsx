@@ -1,7 +1,9 @@
 import styles from "./page.module.css";
 import Image from "next/image";
 import ButtonLink from "./_components/ButtonLink";
+import { client } from "@/libs/client"; // 作成したクライアントをインポート
 
+// microCMSの型定義に合わせる
 type Article = {
   id: string;
   title: string;
@@ -9,35 +11,18 @@ type Article = {
     name: string;
   };
   publishedAt: string;
-  createdAt: string;
+  eyecatch?: {      // アイキャッチ画像がある場合
+    url: string;
+  };
 };
 
-const data: {
-  contents: Article[];
-} = {
-  contents: [
-    {
-      id: "1",
-      title: "Hello",
-      category: {
-        name: "更新情報",
-      },
-      publishedAt: "2025/12/12",
-      createdAt: "2025/12/12",
-    },
-    {
-      id: "2",
-      title: "test",
-      category: {
-        name: "更新情報",
-      },
-      publishedAt: "2025/12/13",
-      createdAt: "2025/12/13",
-    },
-  ],
-};
+export default async function Home() {
+  // microCMSからデータを取得 (blogsはAPIエンドポイント名)
+  const data = await client.get({ 
+    endpoint: "blogs",
+    queries: { limit: 3 } // 最新3件だけ取得する場合
+  });
 
-export default function Home() {
   return (
     <>
       <section className={styles.top}>
@@ -54,22 +39,22 @@ export default function Home() {
       <section className={styles.article}>
         <h2 className={styles.articleTitle}>Blog</h2>
         <ul>
-          {data.contents.map((article) => (
+          {data.contents.map((article: Article) => (
             <li key={article.id} className={styles.list}>
               <div className={styles.link}>
                 <Image
                   className={styles.image}
-                  src="/no-image.png"
-                  alt="No Image"
+                  src={article.eyecatch?.url || "/no-image.png"}
+                  alt={article.title}
                   width={1200}
                   height={630}
                 />
                 <dl className={styles.content}>
+                  {/* タイトルを表示 */}
                   <dt className={styles.articleItemTitle}>
-                    {article.category.name}
+                    {article.title}
                   </dt>
                   <dd className={styles.meta}>
-                    {/* <span className={styles.tag}>{article.category.name}</span> */}
                     <span className={styles.date}>
                       <Image
                         src="/clock.svg"
@@ -78,7 +63,8 @@ export default function Home() {
                         height={32}
                         priority
                       />
-                      {article.publishedAt}
+                      {/* 日付を整形して表示 */}
+                      {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
                     </span>
                   </dd>
                 </dl>
@@ -87,7 +73,7 @@ export default function Home() {
           ))}
         </ul>
         <div className={styles.articleLink}>
-          <ButtonLink  href="/blog">もっと見る</ButtonLink>
+          <ButtonLink href="/blog">もっと見る</ButtonLink>
         </div>
       </section>
     </>

@@ -1,0 +1,22 @@
+on:
+  repository_dispatch:
+    types: [update_news] # microCMSからの通知を受ける
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install axios
+      - name: Fetch data from microCMS
+        run: node get_news.js
+        env:
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add UPDATE.md
+          git commit -m "Update news from microCMS"
+          git pushsinn
