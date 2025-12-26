@@ -95,6 +95,44 @@
   font-size: 1rem;
 }
 
+/* 記事詳細ページのレイアウト */
+.articleContainer {
+  background-color: #fff; /* 背景を白に */
+  color: #333;            /* 文字を読みやすい濃いグレーに */
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  min-height: 80vh;
+}
+
+.articleTitle {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.postContent {
+  margin-top: 32px;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+/* 本文内の画像がはみ出さないように設定 */
+.postContent img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.postContent h2 {
+  border-left: 5px solid #ff7e5f;
+  padding-left: 15px;
+  margin: 40px 0 20px;
+}
+
 @media (max-width: 640px) {
   .top {
     padding: 120px 16px;
