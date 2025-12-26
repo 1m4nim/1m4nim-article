@@ -2,10 +2,10 @@ name: Deploy Next.js to Pages
 
 on:
   push:
-    branches: ["main"] # mainブランチにpushされたら実行
+    branches: ["main"]
   repository_dispatch:
-    types: [update_news] # microCMSからの通知(Webhook)で実行
-  workflow_dispatch: # 手動実行ボタンも有効にする
+    types: [update_news] # microCMSのトリガーイベント名と合わせる
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,19 +29,18 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Install dependencies
-        run: npm ci # package-lock.jsonを元に厳密にインストール
+        run: npm ci
 
       - name: Build with Next.js
-        # ここでGitHub SecretsのAPIキーを環境変数として渡します
         run: npx next build
         env:
+          # GitHub Secretsに登録した名前と一致させる
           MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
-          # もし他にも環境変数（SERVICE_DOMAINなど）があればここに追加します
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out # Next.jsの静的エクスポート先を指定
+          path: ./out
 
   deploy:
     environment:
