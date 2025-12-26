@@ -1,9 +1,9 @@
 import styles from "./page.module.css";
 import Image from "next/image";
+import Link from "next/link"; // 1. Linkコンポーネントをインポート
 import ButtonLink from "./_components/ButtonLink";
-import { client } from "@/libs/client"; // 作成したクライアントをインポート
+import { client } from "@/libs/client";
 
-// microCMSの型定義に合わせる
 type Article = {
   id: string;
   title: string;
@@ -11,16 +11,18 @@ type Article = {
     name: string;
   };
   publishedAt: string;
-  eyecatch?: {      // アイキャッチ画像がある場合
+  eyecatch?: {
     url: string;
   };
 };
 
 export default async function Home() {
-  // microCMSからデータを取得 (blogsはAPIエンドポイント名)
   const data = await client.get({ 
     endpoint: "blogs",
-    queries: { limit: 3 } // 最新3件だけ取得する場合
+    queries: { 
+      limit: 3,
+      orders: "-publishedAt" // 新しい順に並べる
+    }
   });
 
   return (
@@ -34,14 +36,17 @@ export default async function Home() {
           src="/angel.jpg"
           alt="赤いキノコの帽子をかぶった天使"
           fill
+          priority
         />
       </section>
+
       <section className={styles.article}>
         <h2 className={styles.articleTitle}>Blog</h2>
         <ul>
           {data.contents.map((article: Article) => (
             <li key={article.id} className={styles.list}>
-              <div className={styles.link}>
+              {/* 2. 記事全体をLinkタグで囲む。hrefを`/blog/記事のID`にする */}
+              <Link href={`/blog/${article.id}`} className={styles.link}>
                 <Image
                   className={styles.image}
                   src={article.eyecatch?.url || "/no-image.png"}
@@ -50,7 +55,6 @@ export default async function Home() {
                   height={630}
                 />
                 <dl className={styles.content}>
-                  {/* タイトルを表示 */}
                   <dt className={styles.articleItemTitle}>
                     {article.title}
                   </dt>
@@ -61,14 +65,12 @@ export default async function Home() {
                         alt=""
                         width={32}
                         height={32}
-                        priority
                       />
-                      {/* 日付を整形して表示 */}
                       {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
                     </span>
                   </dd>
                 </dl>
-              </div>
+              </Link>
             </li>
           ))}
         </ul>
