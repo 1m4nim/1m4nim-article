@@ -1,6 +1,7 @@
+// app/page.tsx
 import styles from "./page.module.css";
 import Image from "next/image";
-import Link from "next/link"; // 1. Linkコンポーネントをインポート
+import Link from "next/link";
 import ButtonLink from "./_components/ButtonLink";
 import { client } from "@/libs/client";
 
@@ -17,12 +18,16 @@ type Article = {
 };
 
 export default async function Home() {
-  const data = await client.get({ 
+  const data = await client.get({
     endpoint: "blogs",
-    queries: { 
+    queries: {
       limit: 3,
-      orders: "-publishedAt" // 新しい順に並べる
-    }
+      orders: "-publishedAt", // 新しい順に並べる
+    },
+    // 最新情報を取得するためのキャッシュ無効化設定
+    customRequestInit: {
+      cache: "no-store",
+    },
   });
 
   return (
@@ -45,7 +50,6 @@ export default async function Home() {
         <ul>
           {data.contents.map((article: Article) => (
             <li key={article.id} className={styles.list}>
-              {/* 2. 記事全体をLinkタグで囲む。hrefを`/blog/記事のID`にする */}
               <Link href={`/blog/${article.id}`} className={styles.link}>
                 <Image
                   className={styles.image}
@@ -55,18 +59,21 @@ export default async function Home() {
                   height={630}
                 />
                 <dl className={styles.content}>
-                  <dt className={styles.articleItemTitle}>
-                    {article.title}
-                  </dt>
+                  {/* カテゴリ名の表示を追加 */}
+                  {article.category && (
+                    <dd>
+                      <span className={styles.category}>
+                        {article.category.name}
+                      </span>
+                    </dd>
+                  )}
+                  <dt className={styles.articleItemTitle}>{article.title}</dt>
                   <dd className={styles.meta}>
                     <span className={styles.date}>
-                      <Image
-                        src="/clock.svg"
-                        alt=""
-                        width={32}
-                        height={32}
-                      />
-                      {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
+                      <Image src="/clock.svg" alt="" width={32} height={32} />
+                      {new Date(article.publishedAt).toLocaleDateString(
+                        "ja-JP"
+                      )}
                     </span>
                   </dd>
                 </dl>
