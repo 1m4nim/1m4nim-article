@@ -1,14 +1,16 @@
-// app/blog/[id]/page.tsx
 import { client } from "@/libs/client";
 import styles from "../../page.module.css";
 import Image from "next/image";
+
+// 1. 公開後、データが変わったら60秒ごとに更新を試みる設定（ISR）
+export const revalidate = 60;
 
 type Blog = {
   id: string;
   title: string;
   content: string;
   publishedAt: string;
-  category: { name: string }; // カテゴリを追加
+  category: { name: string };
   eyecatch?: { url: string };
 };
 
@@ -21,29 +23,21 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
   const blog: Blog = await client.get({
     endpoint: "blogs",
     contentId: params.id,
-    // 最新の題名変更などを即座に反映させる設定
-    customRequestInit: {
-      cache: "no-store",
-    },
   });
 
   return (
     <main className={styles.main}>
       <article className={styles.articleContainer}>
-        {/* カテゴリ表示を追加 */}
         {blog.category && (
           <span className={styles.category}>{blog.category.name}</span>
         )}
-
         <h1 className={styles.articleTitle}>{blog.title}</h1>
-
         <div className={styles.meta}>
           <span className={styles.date}>
             <Image src="/clock.svg" alt="" width={20} height={20} />
             {new Date(blog.publishedAt).toLocaleDateString("ja-JP")}
           </span>
         </div>
-
         {blog.eyecatch && (
           <div className={styles.eyecatchDetail}>
             <Image
@@ -56,12 +50,9 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
             />
           </div>
         )}
-
         <div
           className={styles.postContent}
-          dangerouslySetInnerHTML={{
-            __html: `${blog.content}`,
-          }}
+          dangerouslySetInnerHTML={{ __html: `${blog.content}` }}
         />
       </article>
     </main>

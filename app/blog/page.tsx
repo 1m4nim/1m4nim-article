@@ -1,4 +1,4 @@
-// app/blog/page.tsx
+export const revalidate = 60;
 import { client } from "@/libs/client";
 import styles from "../page.module.css";
 import Image from "next/image";
@@ -8,9 +8,7 @@ export default async function BlogListPage() {
   const data = await client.get({
     endpoint: "blogs",
     queries: { limit: 10, orders: "-publishedAt" },
-    customRequestInit: {
-      cache: "no-store",
-    },
+    customRequestInit: {},
   });
 
   return (

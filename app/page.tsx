@@ -1,4 +1,4 @@
-// app/page.tsx
+export const revalidate = 60;
 import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,10 +24,7 @@ export default async function Home() {
       limit: 3,
       orders: "-publishedAt", // 新しい順に並べる
     },
-    // 最新情報を取得するためのキャッシュ無効化設定
-    customRequestInit: {
-      cache: "no-store",
-    },
+    customRequestInit: {},
   });
 
   return (
