@@ -97,7 +97,7 @@
 
 /* 記事詳細ページのレイアウト */
 .articleContainer {
-  background-color: #fff; /* 背景を白に */
+  background-color: bisque;
   color: #333; /* 文字を読みやすい濃いグレーに */
   max-width: 800px;
   margin: 40px auto;
