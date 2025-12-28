@@ -8,41 +8,54 @@ export default async function BlogListPage() {
   const data = await client.get({
     endpoint: "blogs",
     queries: { limit: 10, orders: "-publishedAt" },
-    customRequestInit: {},
   });
 
   return (
     <main className={styles.main}>
-      <div className={styles.articleContainer}>
+      {/* トップへ戻る画像リンク */}
+      <div style={{ padding: '20px 0' }}>
+        <Link href="/">
+          <Image
+            src="/back-button.png"
+            alt="トップページへ戻る"
+            width={100}
+            height={50}
+            style={{ cursor: 'pointer' }}
+          />
+        </Link>
+      </div>
+
+      <section className={styles.article}>
         <h1 className={styles.articleTitle}>すべての記事</h1>
-        <ul className={styles.articleList}>
+        <ul>
           {data.contents.map((article: any) => (
             <li key={article.id} className={styles.list}>
               <Link href={`/blog/${article.id}`} className={styles.link}>
                 <Image
                   src={article.eyecatch?.url || "/no-image.png"}
                   alt=""
-                  width={300}
-                  height={200}
+                  width={1200}
+                  height={630}
                   className={styles.image}
                 />
-                <div className={styles.content}>
-                  {/* カテゴリ表示を追加 */}
+                <dl className={styles.content}>
                   {article.category && (
-                    <span className={styles.category}>
+                    <span className={styles.category} style={{ fontSize: '0.8rem', color: '#666', display: 'block' }}>
                       {article.category.name}
                     </span>
                   )}
-                  <p className={styles.articleItemTitle}>{article.title}</p>
-                  <span className={styles.date}>
-                    {new Date(article.publishedAt).toLocaleDateString("ja-JP")}
-                  </span>
-                </div>
+                  <dt className={styles.articleItemTitle}>{article.title}</dt>
+                  <dd className={styles.meta}>
+                    <span className={styles.date}>
+                      {new Date(article.publishedAt).toLocaleDateString("ja-JP")}
+                    </span>
+                  </dd>
+                </dl>
               </Link>
             </li>
           ))}
         </ul>
-      </div>
+      </section>
     </main>
   );
 }

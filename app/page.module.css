@@ -149,6 +149,19 @@
   list-style: none;
 }
 
+.backHome {
+  margin-bottom: 24px;
+}
+
+.backImage {
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.backImage:hover {
+  opacity: 0.7;
+}
+
 @media (max-width: 640px) {
   .top {
     padding: 120px 16px;
