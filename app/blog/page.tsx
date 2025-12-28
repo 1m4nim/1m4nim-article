@@ -1,3 +1,4 @@
+// app/blog/page.tsx
 export const revalidate = 60;
 import { client } from "@/libs/client";
 import styles from "../page.module.css";
@@ -12,15 +13,21 @@ export default async function BlogListPage() {
 
   return (
     <main className={styles.main}>
-      {/* トップへ戻る画像リンク */}
-      <div style={{ padding: '20px 0' }}>
+      {/* 右上のバツボタン（styles.closeButton）をここから完全に削除しました。
+         左上の自作画像ボタンのみを残しています。
+      */}
+      <div style={{ padding: "20px 0" }}>
         <Link href="/">
           <Image
             src="/back-button.png"
             alt="トップページへ戻る"
             width={100}
             height={50}
-            style={{ cursor: 'pointer' }}
+            style={{
+              cursor: "pointer",
+              backgroundColor: "white",
+              borderRadius: "20%",
+            }}
           />
         </Link>
       </div>
@@ -40,14 +47,23 @@ export default async function BlogListPage() {
                 />
                 <dl className={styles.content}>
                   {article.category && (
-                    <span className={styles.category} style={{ fontSize: '0.8rem', color: '#666', display: 'block' }}>
+                    <span
+                      className={styles.category}
+                      style={{
+                        fontSize: "0.8rem",
+                        color: "#666",
+                        display: "block",
+                      }}
+                    >
                       {article.category.name}
                     </span>
                   )}
                   <dt className={styles.articleItemTitle}>{article.title}</dt>
                   <dd className={styles.meta}>
                     <span className={styles.date}>
-                      {new Date(article.publishedAt).toLocaleDateString("ja-JP")}
+                      {new Date(article.publishedAt).toLocaleDateString(
+                        "ja-JP"
+                      )}
                     </span>
                   </dd>
                 </dl>
