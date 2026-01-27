@@ -30,9 +30,6 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
 
   return (
     <main className={styles.main}>
-      {/* ここが重要です！ 
-        href="/blog" にすることで、必ず「すべての記事」一覧に戻ります。
-      */}
       <Link
         href="/blog"
         className={styles.closeButton}

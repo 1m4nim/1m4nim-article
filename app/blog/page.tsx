@@ -13,9 +13,6 @@ export default async function BlogListPage() {
 
   return (
     <main className={styles.main}>
-      {/* 右上のバツボタン（styles.closeButton）をここから完全に削除しました。
-         左上の自作画像ボタンのみを残しています。
-      */}
       <div style={{ padding: "20px 0" }}>
         <Link href="/">
           <Image
